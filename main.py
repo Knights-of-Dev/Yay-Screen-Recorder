@@ -15,9 +15,12 @@ def minestartrecording():
     global moniter
     global framerate
     global name
+    name2 = str(name)
+    name2 = f"videos/{name2}"
+    
     if framerate > 60:
         framerate = 60
-    recorder.start_recording(str(name), int(framerate), {"mon": moniter})
+    recorder.start_recording(str(name2), int(framerate), {"mon": moniter})
     statetext.config(text="Recording")
 
 def minestoprecording():

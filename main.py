@@ -1,9 +1,12 @@
 import tkinter as tk
 import pyscreenrec
+import mss
 
 moniter = 1
 framerate = 30
 name = "recording.mp4"
+recording = False
+paused = False
 
 
 
@@ -15,28 +18,53 @@ def minestartrecording():
     global moniter
     global framerate
     global name
+    global recording
+    global paused
+    global recorder
+
+    if recording:
+        return
+    
     name2 = str(name)
     name2 = f"videos/{name2}"
+    with mss.mss() as sct:
+        mon = sct.monitors[moniter]
     
     if framerate > 60:
         framerate = 60
-    recorder.start_recording(str(name2), int(framerate), {"mon": moniter})
+    recorder.start_recording(str(name2), int(framerate), mon)
     statetext.config(text="Recording")
+    recording = True
+    paused = False
+
 
 def minestoprecording():
-    if recorder.is_recording:
+    global recording
+    global paused
+    global recorder
+    if recording:
         recorder.stop_recording()
         statetext.config(text="Not Recording")
+        recording = False
+        paused = False
 
 def minepauserecording():
-    if recorder.is_recording and not recorder.is_paused:
+    global recording
+    global paused
+    global recorder
+    if recording and not paused:
         recorder.pause_recording()
         statetext.config(text="Paused")
+        paused = True
 
 def mineresumerecording():
-    if recorder.is_paused:
+    global recording
+    global paused
+    global recorder
+    if paused:
         recorder.resume_recording()
         statetext.config(text="Recording")
+        paused = False
         
 
 #window set up / settings

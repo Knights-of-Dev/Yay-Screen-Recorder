@@ -1,6 +1,8 @@
 import tkinter as tk
 import pyscreenrec
 import mss
+import sounddevice as sd
+import numpy as np
 
 moniter = 1
 framerate = 30
@@ -8,6 +10,10 @@ name = "recording.mp4"
 recording = False
 paused = False
 
+
+#recording set up
+fs = 44100
+recorded_frames = []
 
 
 #functions
